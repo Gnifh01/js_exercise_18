@@ -1,16 +1,12 @@
 function memoize(fn) {
   let cache = {};
-  return function control(num) {
-    let res = fn(num);
-    for (const key in cache) {
-      if (key === res) {
-        return res;
-      } else {
-        cache.store = res;
-      }
+  return function addCache(num) {
+    if(num in cache) {
+      return `Fetching from cache for ${cache[num]}`;
     }
-    return res;
-  };
+    cache[num] = fn(num);
+    return cache[num];
+  }
 }
 
 function factorial(x) {
@@ -21,6 +17,6 @@ function factorial(x) {
 }
 
 factorial = memoize(factorial);
-console.log("Calculating result for " + factorial(10));
-console.log("Fetching from cache for " + factorial(6));
-console.log("Fetching from cache for " + factorial(5));
+console.log(factorial(10));
+console.log(factorial(6));
+console.log(factorial(5));
